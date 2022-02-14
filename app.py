@@ -15,11 +15,16 @@ mapbox_access_token = 'pk.eyJ1IjoibWFydGFub2luZXJjaWFsIiwiYSI6ImNrdXdwNXRxczJydW
 px.set_mapbox_access_token(mapbox_access_token)
 
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+#import dash_core_components as dcc
+from dash import dcc
+#import dash_html_components as html
+from dash import html
 from dash.dependencies import Input, Output, State
 
 app = dash.Dash(show_undo_redo=False)
+
+server = app.server
+app.title = 'Meteo-Panama'
 
 app.layout = html.Div(
     children=[
