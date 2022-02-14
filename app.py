@@ -159,7 +159,7 @@ app.layout = html.Div(
                                                                'text-align':'center'}),
                                              html.Div(
                                                 id='precip-e1',
-                                                children=[html.Br(),html.Br(),
+                                                children=[html.Br(),html.Br(),html.Br(),
                                                           html.H4('Ensemble 1:'),
                                                           html.H2('-'),
                                                           html.H4('l/m2'),
@@ -178,7 +178,7 @@ app.layout = html.Div(
                                                                'text-align':'center'}),
                                              html.Div(
                                                 id='precip-e2',
-                                                children=[html.Br(),html.Br(),
+                                                children=[html.Br(),html.Br(),html.Br(),
                                                           html.H4('Ensemble 2:'),
                                                           html.H2('-'),
                                                           html.H4('l/m2'),
@@ -468,13 +468,13 @@ def callback_graph(vlat,vlon,clickData):
                                  font={'color':colors['letter'], 'family':font['family']},
                                               )}
     pe1 = html.Div(id='precip-e1',
-                   children=[html.Br(),html.Br(),
+                   children=[html.Br(),html.Br(),html.Br(),
                              html.H4('Ensemble 1:'),
                              html.H2(str(round(data[data['Time']==times[5]].e1.max(),3))),
                              html.H4('l/m2'),
                              html.Br()])
     pe2 = html.Div(id='precip-e2',
-                   children=[html.Br(),html.Br(),
+                   children=[html.Br(),html.Br(),html.Br(),
                              html.H4('Ensemble 2:'),
                              html.H2(str(round(data[data['Time']==times[5]].e2.max(),3))),
                              html.H4('l/m2'),
