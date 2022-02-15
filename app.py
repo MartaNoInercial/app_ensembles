@@ -470,31 +470,31 @@ def callback_graph(vlat,vlon,clickData):
     pe1 = html.Div(id='precip-e1',
                    children=[html.Br(),html.Br(),html.Br(),
                              html.H4('Ensemble 1:'),
-                             html.H2(str(round(data[data['Time']==times[5]].e1.max(),3))),
+                             html.H2(str(round(data[data['Time']==times[35]].e1.mean()-round(data[data['Time']==times[23]].e1.mean(),3))),
                              html.H4('l/m2'),
                              html.Br()])
     pe2 = html.Div(id='precip-e2',
                    children=[html.Br(),html.Br(),html.Br(),
                              html.H4('Ensemble 2:'),
-                             html.H2(str(round(data[data['Time']==times[5]].e2.max(),3))),
+                             html.H2(str(round(data[data['Time']==times[35]].e2.mean()-round(data[data['Time']==times[23]].e2.mean(),3))),
                              html.H4('l/m2'),
                              html.Br()])
     pe3 = html.Div(id='precip-e3',
                    children=[html.Br(),
                              html.H4('Ensemble 3:'),
-                             html.H2(str(round(data[data['Time']==times[5]].e3.max(),3))),
+                             html.H2(str(round(data[data['Time']==times[35]].e3.mean()-round(data[data['Time']==times[23]].e3.mean(),3))),
                              html.H4('l/m2'),
                              html.Br()])
     pe4 = html.Div(id='precip-e4',
                    children=[html.Br(),
                              html.H4('Ensemble 4:'),
-                             html.H2(str(round(data[data['Time']==times[5]].e4.max(),3))),
+                             html.H2(str(round(data[data['Time']==times[35]].e4.mean()-round(data[data['Time']==times[23]].e4.mean(),3))),
                              html.H4('l/m2'),
                              html.Br()])
     pe5 = html.Div(id='precip-e5',
                    children=[html.Br(),
                              html.H4('Ensemble 5:'),
-                             html.H2(str(round(data[data['Time']==times[5]].e5.max(),3))),
+                             html.H2(str(round(data[data['Time']==times[35]].e5.mean()-round(data[data['Time']==times[23]].e5.mean(),3))),
                              html.H4('l/m2'),
                              html.Br()])
     
