@@ -85,7 +85,7 @@ app.layout = html.Div(
                                                                'outline-width':'5px',
                                                                'font-family':font['family'],
                                                                'color':colors['letter'],
-                                                               'text-align':'center'}),
+                                                               'text-align':'center'}),                                             
                                          ],
                                      ),
                                      html.Div(
@@ -148,7 +148,7 @@ app.layout = html.Div(
                                                 style={'outline-color':colors['bg'],
                                                                'outline-style':'solid',
                                                                'display':'inline-block',
-                                                               'min-height':'30%',
+                                                               'min-height':'30%',                                              
                                                                'backgroundColor':colors['elem_bg'],
                                                                'width':'31.2%',
                                                                'top': '30%',
@@ -167,7 +167,7 @@ app.layout = html.Div(
                                                 style={'outline-color':colors['bg'],
                                                                'outline-style':'solid',
                                                                'display':'inline-block',
-                                                               'min-height':'30%',
+                                                               'min-height':'30%',                                              
                                                                'backgroundColor':colors['elem_bg'],
                                                                'width':'31.2%',
                                                                'top': '30%',
@@ -186,7 +186,7 @@ app.layout = html.Div(
                                                 style={'outline-color':colors['bg'],
                                                                'outline-style':'solid',
                                                                'display':'inline-block',
-                                                               'min-height':'30%',
+                                                               'min-height':'30%',                                              
                                                                'backgroundColor':colors['elem_bg'],
                                                                'width':'31.2%',
                                                                'height': '30%',
@@ -227,7 +227,7 @@ app.layout = html.Div(
                                                 style={'outline-color':colors['bg'],
                                                                'outline-style':'solid',
                                                                'display':'inline-block',
-                                                               'min-height':'30%',
+                                                               'min-height':'30%',                                              
                                                                'backgroundColor':colors['elem_bg'],
                                                                'width':'31.2%',
                                                                'height': '30%',
@@ -245,7 +245,7 @@ app.layout = html.Div(
                                                 style={'outline-color':colors['bg'],
                                                                'outline-style':'solid',
                                                                'display':'inline-block',
-                                                               'min-height':'30%',
+                                                               'min-height':'30%',                                              
                                                                'backgroundColor':colors['elem_bg'],
                                                                'width':'31.2%',
                                                                'height': '30%',
@@ -266,7 +266,7 @@ app.layout = html.Div(
                                                                      'range':[0,df.PrecipitacionAcumulada_e1.max()],
                                                                      'color':colors['letter']},
                                                               paper_bgcolor=colors['elem_bg'],
-                                                              plot_bgcolor=colors['elem_bg'],
+                                                              plot_bgcolor=colors['elem_bg'], 
                                                               font={'color':colors['letter'], 'family':font['family']},
                                                               )},
                                                  style={'outline-color':colors['bg'],
@@ -281,7 +281,7 @@ app.layout = html.Div(
                                                         'color':colors['letter']}),
                                                          ],
                                      ),
-
+                                     
                                  ],
                                 style={
                                      'width':'50%',
@@ -300,7 +300,7 @@ app.layout = html.Div(
                                                                'outline-style':'solid',
                                                                'display':'inline-block',
                                                                'width':'98%',
-                                                               'height':'23%',
+                                                               'height':'23%',                                                
                                                                'backgroundColor':colors['title'],
                                                                'padding':'1%',
                                                                'outline-width':'5px',
@@ -349,7 +349,7 @@ app.layout = html.Div(
                                                                      'range':[10,df.Temperatura_e1.max()],
                                                                      'color':colors['letter']},
                                                               paper_bgcolor=colors['elem_bg'],
-                                                              plot_bgcolor=colors['elem_bg'],
+                                                              plot_bgcolor=colors['elem_bg'], 
                                                               font={'color':colors['letter'], 'family':font['family']},
                                                               )},
                                                  style={'outline-color':colors['bg'],
@@ -395,7 +395,7 @@ app.layout = html.Div(
                     style={'outline-color':colors['bg'],
                            'outline-style':'solid',
                            'display':'inline-block',
-                           'float':'left',
+                           'float':'left', 
                            'width':'98%',
                            'backgroundColor':colors['elem_bg'],
                            'padding':'1%',
@@ -405,23 +405,30 @@ app.layout = html.Div(
                            'text-align':'center'}),
             ],
         )
-    ],
+    ], 
 )
 
 @app.callback(
+    [Output(component_id='temp-scatter_chart', component_property='figure'),
      Output(component_id='precip-scatter_chart', component_property='figure'),
      Output(component_id='precip-e1', component_property='children'),
      Output(component_id='precip-e2', component_property='children'),
      Output(component_id='precip-e3', component_property='children'),
      Output(component_id='precip-e4', component_property='children'),
      Output(component_id='precip-e5', component_property='children'),
-     Output(component_id='precip-map', component_property='figure'),
-     Input(component_id='lat-slider', component_property='value'),
-     Input(component_id='lon-slider', component_property='value'), prevent_initial_call=True)
-def callback_01(vlat,vlon):
+     Output(component_id='precip-map', component_property='figure')
+    ],
+    [Input(component_id='lat-slider', component_property='value'),
+     Input(component_id='lon-slider', component_property='value'),
+     Input(component_id='temp-map', component_property='clickData')])
+
+def callback_graph(vlat,vlon,clickData):
     py = vlat
     px = vlon
-
+    tx = clickData['points'][0]['lon']
+    ty = clickData['points'][0]['lat']
+    dff = df[(df['Longitude']==tx)&(df['Latitude']==ty)]
+    
     dfff = df[(df['Longitude']>=px[0])&(df['Latitude']>=py[0])&(df['Longitude']<=px[1])&(df['Latitude']<=py[1])]
     times = list(dict.fromkeys(list((dfff.Time))))
     precip = []
@@ -433,7 +440,20 @@ def callback_01(vlat,vlon):
                       dfff[dfff['Time']==times[i]].PrecipitacionAcumulada_e4.mean(),
                       dfff[dfff['Time']==times[i]].PrecipitacionAcumulada_e5.mean()])
     data = pd.DataFrame(precip, columns=['Time','e1','e2','e3','e4','e5'])
-
+    
+    tfig = {'data':[go.Scatter(x = dff.Time, y = dff.Temperatura_e1, mode = 'lines', name = 'ensemble 1'),
+                   go.Scatter(x=dff.Time, y=dff.Temperatura_e2,mode='lines', name = 'ensemble 2'),
+                   go.Scatter(x=dff.Time, y=dff.Temperatura_e3,mode='lines', name = 'ensemble 3'),
+                   go.Scatter(x=dff.Time, y=dff.Temperatura_e4,mode='lines', name = 'ensemble 4'),
+                   go.Scatter(x=dff.Time, y=dff.Temperatura_e5,mode='lines', name = 'ensemble 5')],
+            'layout':go.Layout(title='Temperatura en (lon='+str(round(tx,2))+', lat='+str(round(ty,2))+')',
+                                 xaxis={'title':'Tiempo', 'color':colors['letter']},
+                                 yaxis={'title':'Precipitacion acumulada (l/m2)', 'range':[0,df.Temperatura_e1.max()],
+                                        'color':colors['letter']},
+                                 paper_bgcolor=colors['elem_bg'],
+                                 plot_bgcolor=colors['elem_bg'],
+                                 font={'color':colors['letter'], 'family':font['family']},
+                                              )}
     pfig = {'data':[go.Scatter(x = data.Time, y = data.e1, mode='lines', name = 'ensemble 1'),
                     go.Scatter(x=data.Time, y=data.e2, mode='lines', name = 'ensemble 2'),
                     go.Scatter(x=data.Time, y=data.e3, mode='lines', name = 'ensemble 3'),
@@ -477,7 +497,7 @@ def callback_01(vlat,vlon):
                              html.H2(str(round((data[data['Time']==times[35]].e5.mean()-data[data['Time']==times[23]].e5.mean()),3))),
                              html.H4('l/m2'),
                              html.Br()])
-
+    
     pmap = {'data':[go.Scattermapbox(lat=dfff[dfff['Time']==list_time[0]].Latitude,
                                      lon=dfff[dfff['Time']==list_time[-1]].Longitude,
                                      hoverinfo=["lon", "lat"], opacity=0.8,
@@ -493,30 +513,10 @@ def callback_01(vlat,vlon):
                                            zoom = 6),
                                paper_bgcolor=colors['elem_bg'],
                                plot_bgcolor=colors['elem_bg'])}
-    return pfig, pe1, pe2, pe3, pe4, pe5, pmap
-
-@app.callback(Output(component_id='temp-scatter_chart', component_property='figure'), Input(component_id='temp-map', component_property='clickData'), prevent_initial_call=True)
-def callback_02(clickData):
-    tx = clickData['points'][0]['lon']
-    ty = clickData['points'][0]['lat']
-    dff = df[(df['Longitude']==tx)&(df['Latitude']==ty)]
-    tfig = {'data':[go.Scatter(x = dff.Time, y = dff.Temperatura_e1, mode = 'lines', name = 'ensemble 1'),
-                   go.Scatter(x=dff.Time, y=dff.Temperatura_e2,mode='lines', name = 'ensemble 2'),
-                   go.Scatter(x=dff.Time, y=dff.Temperatura_e3,mode='lines', name = 'ensemble 3'),
-                   go.Scatter(x=dff.Time, y=dff.Temperatura_e4,mode='lines', name = 'ensemble 4'),
-                   go.Scatter(x=dff.Time, y=dff.Temperatura_e5,mode='lines', name = 'ensemble 5')],
-            'layout':go.Layout(title='Temperatura en (lon='+str(round(tx,2))+', lat='+str(round(ty,2))+')',
-                                 xaxis={'title':'Tiempo', 'color':colors['letter']},
-                                 yaxis={'title':'Precipitacion acumulada (l/m2)', 'range':[0,df.Temperatura_e1.max()],
-                                        'color':colors['letter']},
-                                 paper_bgcolor=colors['elem_bg'],
-                                 plot_bgcolor=colors['elem_bg'],
-                                 font={'color':colors['letter'], 'family':font['family']},
-                                              )}
-    return tfig
+    return tfig, pfig, pe1, pe2, pe3, pe4, pe5, pmap
 
 if __name__ == "__main__":
-
+    
     # Display app start
     logger.error('*' * 80)
     logger.error('App initialisation')
