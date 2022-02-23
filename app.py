@@ -1,5 +1,5 @@
 import pandas as pd
-df = pd.read_csv('https://theweatherpartner.xyz/martav/ensembles_data.csv')
+df = pd.read_csv('https://theweatherpartner.xyz/projects/c102/Miscelanea/ensembles_data.csv')
 list_time = list(dict.fromkeys(list((df.Time))))
 
 colors = {'bg':'#94c2ff',
